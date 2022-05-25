@@ -1,3 +1,4 @@
+
 unloadNamespace('SoupX')
 unloadNamespace('Seurat')
 unloadNamespace('sctransform')
@@ -14,8 +15,16 @@ library(scales)
 
 ####ambient DNA expression profile
 ##read in raw and filtered matrix manually
-tod <- Read10X("../synoptic_project_data/raw_feature_bc_matrix/")
-toc <- Read10X("../synoptic_project_data/filtered_feature_bc_matrix/")
+args = commandArgs(trailingOnly=TRUE)
+print ("raw matrix:")
+print (args[1])
+print ("filtered matrix:")
+print (args[2])
+
+#tod <- Read10X("../synoptic_project_data/raw_feature_bc_matrix/")
+tod <- Read10X(args[1])
+#toc <- Read10X("../synoptic_project_data/filtered_feature_bc_matrix/")
+toc <- Read10X(args[2])
 sc <- CreateSeuratObject(toc)
 sc <- SCTransform(sc, verbose = F)
 sc <- RunPCA(sc, verbose = F)
@@ -106,6 +115,8 @@ p
 dev.off()
 #fig3_soup_profile bottom 5 of top100
 soup_profile2<-data.frame(head(soup.channel$soupProfile[order(soup.channel$soupProfile$est, decreasing = T), ], n = 100))
+#write out top100 ambientDNAprofile
+write.table(soup_profile2,"top100_ambientDNAprofile.txt")
 soup_profile2<-data.frame(head(soup_profile2[order(soup_profile2$est, decreasing = F), ], n = 5))
 p2<-ggplot(soup_profile2,aes(x=reorder(rownames(soup_profile2),-soup_profile2$est),y=soup_profile2$est))+ylim(0,0.26)+
   geom_bar(stat = 'identity')+xlab("")+ylab("")+theme(axis.text.x = element_text(angle=90, hjust=.5, vjust=.5,size=20))+
