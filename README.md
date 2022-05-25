@@ -34,5 +34,4 @@ Rscript report_soupx_dropletfilter.R path/to/raw path/to/filtered
 Rscript report_soupx_dropletfilter.R ../synoptic_project_data/raw_feature_bc_matrix/ ../synoptic_project_data/filtered_feature_bc_matrix/
 
 ## output
-figures of my report under working dir
-txt file containing ambientDNAprofile (ambientDNAprofile.txt)
+figures of my report under working dir and a txt file containing ambientDNAprofile (ambientDNAprofile.txt)
